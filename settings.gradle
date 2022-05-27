@@ -1,0 +1,2 @@
+rootProject.name = 'quarkus-vs-springboot-mp'
+include 'quarkus:order-controller', 'quarkus:order-service', 'spring-boot:order-controller', 'spring-boot:order-service'
