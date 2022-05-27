@@ -1,4 +1,4 @@
-package org.demo.controller
+package org.demo.`order-controller`
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
