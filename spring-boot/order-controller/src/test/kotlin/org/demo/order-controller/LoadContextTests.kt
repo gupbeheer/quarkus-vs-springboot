@@ -1,13 +1,12 @@
-package org.demo.controller
+package org.demo.`order-controller`
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class OrderControllerApplicationTests {
+class LoadContextTests {
 
 	@Test
 	fun contextLoads() {
 	}
-
 }

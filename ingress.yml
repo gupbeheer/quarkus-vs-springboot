@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+        - path: /spring-boot/order-controller
+          pathType: Prefix
+          backend:
+            service:
+              name: spring-boot-order-controller-service
+              port:
+                number: 8080
+        - path: /spring-boot/order-service
+          pathType: Prefix
+          backend:
+            service:
+              name: spring-boot-order-service-service
+              port:
+                number: 8080
+        - path: /quarkus/order-controller
+          pathType: Prefix
+          backend:
+            service:
+              name: quarkus-order-controller-service
+              port:
+                number: 8080
+        - path: /quarkus/order-service
+          pathType: Prefix
+          backend:
+            service:
+              name: quarkus-order-service-service
+              port:
+                number: 8080
