@@ -1,56 +1,56 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spring-boot-order-controller
+  name: quarkus-order-controller
   labels:
-    app: spring-boot-order-controller
+    app: quarkus-order-controller
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: spring-boot-order-controller
+      app: quarkus-order-controller
   template:
     metadata:
       labels:
-        app: spring-boot-order-controller
+        app: quarkus-order-controller
     spec:
       containers:
         - name: order-controller
-          image: spring-boot/order-controller:latest
+          image: quarkus/order-controller:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           readinessProbe:
             httpGet:
               port: 8080
-              path: /actuator/health/readiness
+              path: /q/health/ready
             initialDelaySeconds: 1
             periodSeconds: 5
             failureThreshold: 2
           livenessProbe:
             httpGet:
               port: 8080
-              path: /actuator/health/liveness
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            failureThreshold: 3
+              path: /q/health/live
+            initialDelaySeconds: 2
+            periodSeconds: 2
+            failureThreshold: 20
           resources:
             requests:
               memory: 500Mi
               cpu: 100m
             limits:
               memory: 500Mi
-              cpu: "2"
+              cpu: 500m
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: spring-boot-order-controller-service
+  name: quarkus-order-controller-service
 spec:
   selector:
-    app: spring-boot-order-controller
+    app: quarkus-order-controller
   ports:
     - protocol: TCP
       port: 8080
