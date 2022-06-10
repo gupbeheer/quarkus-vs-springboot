@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController
 class Controller {
     @GetMapping
     fun hello(): String {
-        return "Hello again..."
+        return "Hello from Spring-boot, order-controller"
     }
 }

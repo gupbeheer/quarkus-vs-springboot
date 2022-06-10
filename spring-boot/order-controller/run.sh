@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Run script to be packaged inside docker container for starting the spring-boot service
+# Run script to be packaged inside docker container for starting the service
 #
 
 JVM_OPTIONS="$*"
