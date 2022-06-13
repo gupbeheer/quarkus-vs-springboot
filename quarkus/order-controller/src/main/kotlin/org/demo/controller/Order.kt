@@ -1,4 +1,9 @@
 package org.demo.controller
 
-class Order {
-}
+import javax.validation.constraints.NotNull
+
+data class Order(
+    @NotNull
+    val productName: String,
+    val amount: Int
+)

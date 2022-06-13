@@ -1,6 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version "1.6.21"
-    id "org.jetbrains.kotlin.plugin.allopen" version "1.6.21"
+    id 'org.jetbrains.kotlin.jvm'
+    id "org.jetbrains.kotlin.plugin.allopen"
     id 'io.quarkus' version "${quarkusPlatformVersion}"
 }
 
@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-hibernate-validator'
     implementation 'io.quarkus:quarkus-smallrye-openapi'
     implementation 'io.quarkus:quarkus-rest-client-reactive-jackson'
     implementation 'io.quarkus:quarkus-smallrye-reactive-messaging-kafka'
@@ -25,6 +26,8 @@ dependencies {
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
     testImplementation 'io.rest-assured:kotlin-extensions'
+    testImplementation 'io.quarkus:quarkus-test-kafka-companion'
+    testImplementation 'io.quarkiverse.mockk:quarkus-junit5-mockk:+'
 }
 
 group 'org.demo.controller'

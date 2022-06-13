@@ -1,7 +1,7 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version "1.6.21"
-    id "org.jetbrains.kotlin.plugin.allopen" version "1.6.21"
-    id "org.jetbrains.kotlin.plugin.noarg" version "1.6.21"
+    id 'org.jetbrains.kotlin.jvm'
+    id "org.jetbrains.kotlin.plugin.allopen"
+    id "org.jetbrains.kotlin.plugin.noarg"
     id 'io.quarkus' version "${quarkusPlatformVersion}"
 }
 
@@ -11,6 +11,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-hibernate-validator'
     implementation 'io.quarkus:quarkus-smallrye-fault-tolerance'
     implementation 'io.quarkus:quarkus-hibernate-orm-panache'
     implementation 'io.quarkus:quarkus-jdbc-postgresql'
@@ -21,6 +22,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-kotlin'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'io.quarkus:quarkus-arc'
+
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
     testImplementation 'io.rest-assured:kotlin-extensions'
