@@ -11,15 +11,9 @@ import org.awaitility.Awaitility
 import org.awaitility.kotlin.atMost
 import org.awaitility.kotlin.await
 import org.awaitility.kotlin.until
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.time.Duration
-import java.util.UUID
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.transaction.Transactional
 
@@ -51,7 +45,7 @@ internal class NewOrderListenerTest {
                 objectMapper.writeValueAsString(NewOrderEvent("Test product", 12))
             )
         }, 12)
-        await atMost Duration.ofSeconds(2) until {
+        await atMost Duration.ofSeconds(10) until {
             orderRepository.count() == 12L
         }
     }

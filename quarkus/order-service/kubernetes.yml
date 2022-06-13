@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-order-service
+  labels:
+    app: quarkus-order-service
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: quarkus-order-service
+  template:
+    metadata:
+      labels:
+        app: quarkus-order-service
+    spec:
+      containers:
+        - name: order-service
+          image: quarkus/order-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /q/health/ready
+            initialDelaySeconds: 1
+            periodSeconds: 5
+            failureThreshold: 2
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /q/health/live
+            initialDelaySeconds: 2
+            periodSeconds: 2
+            failureThreshold: 20
+          resources:
+            requests:
+              memory: 500Mi
+              cpu: 100m
+            limits:
+              memory: 500Mi
+              cpu: 500m
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: quarkus-order-service-service
+spec:
+  selector:
+    app: quarkus-order-service
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
