@@ -5,8 +5,13 @@ cd $SCRIPT_DIR/.. || exit
 
 ACTION=$1
 case $ACTION in
+  create-mount)
+    mkdir -p data/postgres
+    mkdir -p data/kafka
+    exit
+    ;;
   start-minikube)
-    minikube start --nodes 3 --cpus 2 --memory 2000
+    minikube start --nodes 3 --cpus 2 --memory 2000 --mount --mount-string="$(pwd)/data:/mnt/data"
     minikube addons enable ingress
     exit
     ;;
@@ -25,26 +30,41 @@ case $ACTION in
     echo "Connect your browser to the shown ip address and port number (http://192.168.49.2:80/<version>/<service>)"
     exit
     ;;
-  install-kafka)
-    #https://github.com/d1egoaz/minikube-kafka-cluster
-    git clone https://github.com/d1egoaz/minikube-kafka-cluster
-    cd minikube-kafka-cluster || exit
-    kubectl apply -f 00-namespace/
-    kubectl apply -f 01-zookeeper/
-    kubectl apply -f 02-kafka/
-    kubectl apply -f 03-yahoo-kafka-manager/
-    kubectl apply -f 04-kafka-monitor/
-    cd ..
-    rm -rf minikube-kafka-cluster
-    echo "To use kafka outside of the cluster: kubectl -n kafka-ca1 port-forward kafka-0 9092:9092 to setup a tunnel for 127.0.0.1:9092. Inside the cluster u can use: kafka-0.kafka-ca1.svc.local:9092"
-    exit
-    ;;
   drain)
     kubectl drain --ignore-daemonsets minikube-m02
     exit
     ;;
   uncordon)
     kubectl uncordon minikube-m02
+    exit
+    ;;
+  build-kafka)
+    cd kafka || exit
+    minikube image build --all --tag kafka/kafka:latest .
+    exit
+    ;;
+  start-kafka)
+    cd kafka || exit
+    kubectl apply -f kubernetes.yml
+    exit
+    ;;
+  stop-kafka)
+    cd kafka || exit
+    kubectl delete -f kubernetes.yml
+    exit
+    ;;
+  kafka-port-forward)
+    kubectl port-forward kafka-0 9092:9092
+    exit
+    ;;
+  start-postgres)
+    cd postgres || exit
+    kubectl apply -f kubernetes.yml
+    exit
+    ;;
+  stop-postgres)
+    cd postgres || exit
+    kubectl delete -f kubernetes.yml
     exit
     ;;
 esac
@@ -65,7 +85,7 @@ if [ "$VERSION" != "" ]; then
       exit
       ;;
     start-pods)
-      kubectl delete deployment $VERSION-$SERVICE
+      kubectl delete -f kubernetes.yml
       kubectl apply -f kubernetes.yml
       exit
       ;;
@@ -80,12 +100,19 @@ echo "Usage:"
 echo "  $0 <action> <version> <service> [replicas]"
 echo
 echo "  action:"
-echo "  - start-minikube    Start a multi-node kubernetes cluster"
-echo "  - stop-minikube     Stop the minikube cluster"
-echo "  - delete-minikube   Delete the minikube cluster"
-echo "  - start-ingress     Start kubernetes Ingress"
-echo "  - drain             Drain a node"
-echo "  - uncordon          Restore a nod to schedule tasks"
+echo "  - create-mount         Create the data folders"
+echo "  - start-minikube       Start a multi-node kubernetes cluster"
+echo "  - stop-minikube        Stop the minikube cluster"
+echo "  - delete-minikube      Delete the minikube cluster"
+echo "  - start-ingress        Start kubernetes Ingress"
+echo "  - drain                Drain a node"
+echo "  - uncordon             Restore a nod to schedule tasks"
+echo "  - build-kafka          Create docker images for kafka"
+echo "  - start-kafka          Start the kafka services"
+echo "  - stop-kafka           Stop the kafka services"
+echo "  - kafka-port-forward   Forward the pod port to the host system"
+echo "  - start-postgres       Start postgres (postgresdb, admin, test123)"
+echo "  - stop-postgres        Stop postgres"
 echo
 echo "  The rest of the actions need a 'version' and 'service' as well:"
 echo "  - compile           Compile the service"

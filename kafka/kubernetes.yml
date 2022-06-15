@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka
+  labels:
+    app: kafka-app
+spec:
+  clusterIP: None
+  ports:
+    - name: '9092'
+      port: 9092
+      protocol: TCP
+      targetPort: 9092
+  selector:
+    app: kafka-app
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka
+  labels:
+    app: kafka-app
+spec:
+  serviceName: kafka
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kafka-app
+  template:
+    metadata:
+      labels:
+        app: kafka-app
+    spec:
+      volumes:
+        - name: kafka-storage
+          hostPath:
+            path: /mnt/data/kafka
+            type: Directory
+      containers:
+        - name: kafka-container
+          image: kafka/kafka:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9092
+            - containerPort: 9093
+          env:
+            - name: REPLICAS
+              value: '3'
+            - name: SERVICE
+              value: kafka
+            - name: NAMESPACE
+              value: default
+            - name: SHARE_DIR
+              value: /mnt/kafka
+          volumeMounts:
+            - name: kafka-storage
+              mountPath: /mnt/kafka
