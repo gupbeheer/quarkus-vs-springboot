@@ -29,20 +29,6 @@ case $ACTION in
     echo "Connect your browser to the shown ip address and port number (http://192.168.49.2:80/<version>/<service>)"
     exit
     ;;
-  install-kafka)
-    #https://github.com/d1egoaz/minikube-kafka-cluster
-    git clone https://github.com/d1egoaz/minikube-kafka-cluster
-    cd minikube-kafka-cluster || exit
-    kubectl apply -f 00-namespace/
-    kubectl apply -f 01-zookeeper/
-    kubectl apply -f 02-kafka/
-    kubectl apply -f 03-yahoo-kafka-manager/
-    kubectl apply -f 04-kafka-monitor/
-    cd ..
-    rm -rf minikube-kafka-cluster
-    echo "To use kafka outside of the cluster: kubectl -n kafka-ca1 port-forward kafka-0 9092:9092 to setup a tunnel for 127.0.0.1:9092. Inside the cluster u can use: kafka-0.kafka-ca1.svc.local:9092"
-    exit
-    ;;
   drain)
     kubectl drain --ignore-daemonsets minikube-m02
     exit
