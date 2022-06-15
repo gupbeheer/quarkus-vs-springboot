@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-DIRNAME=`pwd`
-cd $DIRNAME/.. || exit
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
+cd $SCRIPT_DIR/.. || exit
 
 ACTION=$1
 case $ACTION in
@@ -23,6 +23,19 @@ case $ACTION in
     kubectl apply -f ingress.yml
     kubectl get ingress
     echo "Connect your browser to the shown ip address and port number (http://192.168.49.2:80/<version>/<service>)"
+    exit
+    ;;
+  install-kafka)
+    #https://github.com/d1egoaz/minikube-kafka-cluster
+    git clone https://github.com/d1egoaz/minikube-kafka-cluster
+    cd minikube-kafka-cluster || exit
+    kubectl apply -f 00-namespace/
+    kubectl apply -f 01-zookeeper/
+    kubectl apply -f 02-kafka/
+    kubectl apply -f 03-yahoo-kafka-manager/
+    kubectl apply -f 04-kafka-monitor/
+    cd ..
+    rm -rf minikube-kafka-cluster
     exit
     ;;
   drain)
