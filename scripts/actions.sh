@@ -36,6 +36,7 @@ case $ACTION in
     kubectl apply -f 04-kafka-monitor/
     cd ..
     rm -rf minikube-kafka-cluster
+    echo "To use kafka outside of the cluster: kubectl -n kafka-ca1 port-forward kafka-0 9092:9092. Inside the cluster: kafka-0.kafka-ca1.svc.local:9092"
     exit
     ;;
   drain)
