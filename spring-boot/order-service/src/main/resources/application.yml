@@ -10,10 +10,8 @@ spring:
     default: dev
   kafka:
     bootstrap-servers: localhost:9092
-    producer:
+    consumer:
       group-id: spring-order-event
-      client-id: spring-controller-service
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.demo.spring.controller.OrderSerializer
-
-order-service.url: http:/localhost:8081
+      client-id: spring-demo-service
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.demo.spring.service.NewOrderEventDeserializer
