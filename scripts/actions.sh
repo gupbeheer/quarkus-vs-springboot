@@ -8,6 +8,7 @@ case $ACTION in
   create-mount)
     mkdir -p data/postgres
     mkdir -p data/kafka
+    exit
     ;;
   start-minikube)
     minikube start --nodes 3 --cpus 2 --memory 2000 --mount --mount-string="$(pwd)/data:/mnt/data"
