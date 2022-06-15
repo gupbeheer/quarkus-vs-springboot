@@ -12,6 +12,11 @@ Features:
    - Kafka consumer for new orders
    - REST interface for all orders (use paging)
  
+# needed tools #
+- Docker
+- Kubectl
+- Minikube
+
 # demo #
 There is an `action/sh` script in `/scripts`. Use this to perform the following steps:
 
