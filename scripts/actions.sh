@@ -21,6 +21,10 @@ case $ACTION in
     minikube stop
     exit
     ;;
+  dashboard)
+    minikube dashboard
+    exit
+    ;;
   delete-minikube)
     minikube delete
     exit
@@ -35,7 +39,7 @@ case $ACTION in
     exit
     ;;
   drain)
-    kubectl drain --ignore-daemonsets minikube-m02
+    kubectl drain --ignore-daemonsets --delete-emptydir-data minikube-m02
     exit
     ;;
   uncordon)
@@ -120,6 +124,7 @@ echo "  action:"
 echo "  - create-mount            Create the data folders"
 echo "  - start-minikube          Start a multi-node kubernetes cluster"
 echo "  - stop-minikube           Stop the minikube cluster"
+echo "  - dashboard               Start the kubernetes dashboard"
 echo "  - delete-minikube         Delete the minikube cluster"
 echo "  - start-ingress           Start kubernetes Ingress"
 echo "  - drain                   Drain a node"
