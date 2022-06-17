@@ -1,0 +1,5 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+
+order-service.url: http://spring-boot-order-service-service:8080/orders

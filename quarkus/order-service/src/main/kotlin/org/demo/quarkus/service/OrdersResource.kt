@@ -26,7 +26,7 @@ class OrdersResource(private val orderRepository: OrderRepository) {
     }
 }
 
-class OrdersDTO(
+data class OrdersDTO(
     val orders: List<Order>,
     val pageNumber: Int,
     val pageCount: Int

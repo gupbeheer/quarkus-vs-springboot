@@ -34,4 +34,5 @@ data class NewOrderEvent(
     val amount: Int
 ) : Serializable
 
+@Suppress("unused") // used in config
 class NewOrderEventDeserializer: ObjectMapperDeserializer<NewOrderEvent>(NewOrderEvent::class.java)

@@ -66,6 +66,19 @@ case $ACTION in
     kubectl delete -f kubernetes.yml
     exit
     ;;
+  postgres-port-forward)
+    kubectl port-forward postgres-0 5432:5432
+    exit
+    ;;
+  refresh-services)
+    for version in quarkus spring-boot; do
+      for service in order-controller order-service; do
+        $SCRIPT_DIR/$0 build-image $version $service
+        $SCRIPT_DIR/$0 start-pods $version $service
+      done
+    done
+    exit
+    ;;
 esac
 
 VERSION=$2
@@ -99,19 +112,21 @@ echo "Usage:"
 echo "  $0 <action> <version> <service> [replicas]"
 echo
 echo "  action:"
-echo "  - create-mount         Create the data folders"
-echo "  - start-minikube       Start a multi-node kubernetes cluster"
-echo "  - stop-minikube        Stop the minikube cluster"
-echo "  - delete-minikube      Delete the minikube cluster"
-echo "  - start-ingress        Start kubernetes Ingress"
-echo "  - drain                Drain a node"
-echo "  - uncordon             Restore a nod to schedule tasks"
-echo "  - build-kafka          Create docker images for kafka"
-echo "  - start-kafka          Start the kafka services"
-echo "  - stop-kafka           Stop the kafka services"
-echo "  - kafka-port-forward   Forward the pod port to the host system"
-echo "  - start-postgres       Start postgres (postgresdb, admin, test123)"
-echo "  - stop-postgres        Stop postgres"
+echo "  - create-mount            Create the data folders"
+echo "  - start-minikube          Start a multi-node kubernetes cluster"
+echo "  - stop-minikube           Stop the minikube cluster"
+echo "  - delete-minikube         Delete the minikube cluster"
+echo "  - start-ingress           Start kubernetes Ingress"
+echo "  - drain                   Drain a node"
+echo "  - uncordon                Restore a nod to schedule tasks"
+echo "  - build-kafka             Create docker images for kafka"
+echo "  - start-kafka             Start the kafka services"
+echo "  - stop-kafka              Stop the kafka services"
+echo "  - kafka-port-forward      Forward the pod port to the host system"
+echo "  - start-postgres          Start postgres (postgresdb, admin, test123)"
+echo "  - stop-postgres           Stop postgres"
+echo "  - postgres-port-forward   Forward the pod port to the host system"
+echo "  - refresh-services        Compile and restart all services"
 echo
 echo "  The rest of the actions need a 'version' and 'service' as well:"
 echo "  - compile           Compile the service"
