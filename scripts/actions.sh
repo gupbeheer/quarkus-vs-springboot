@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
-cd $SCRIPT_DIR/.. || exit
+cd "$SCRIPT_DIR"/.. || exit
+
+.  "$SCRIPT_DIR"/determineIngressIp.sh
 
 ACTION=$1
 case $ACTION in
@@ -26,7 +28,10 @@ case $ACTION in
   start-ingress)
     kubectl apply -f ingress.yml
     kubectl get ingress
-    echo "Connect your browser to the shown ip address and port number (http://192.168.49.2:80/<version>/<service>)"
+    echo "Connect your browser to the shown ip address and port number (http://$IP:80/<version>/<service>)"
+    if [ "$IP" == "127.0.0.1" ] ; then
+      minikube tunnel
+    fi
     exit
     ;;
   drain)
@@ -73,8 +78,8 @@ case $ACTION in
   refresh-services)
     for version in quarkus spring-boot; do
       for service in order-controller order-service; do
-        $SCRIPT_DIR/actions.sh build-image $version $service
-        $SCRIPT_DIR/actions.sh start-pods $version $service
+        "$SCRIPT_DIR"/actions.sh build-image $version $service
+        "$SCRIPT_DIR"/actions.sh start-pods $version $service
       done
     done
     exit
