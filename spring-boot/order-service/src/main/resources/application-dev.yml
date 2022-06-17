@@ -1,3 +1,5 @@
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgresdb
   kafka:
     bootstrap-servers: localhost:9092

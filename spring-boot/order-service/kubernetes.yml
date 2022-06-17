@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spring-boot-order-controller
+  name: spring-boot-order-service
   labels:
-    app: spring-boot-order-controller
+    app: spring-boot-order-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: spring-boot-order-controller
+      app: spring-boot-order-service
   template:
     metadata:
       labels:
-        app: spring-boot-order-controller
+        app: spring-boot-order-service
     spec:
       containers:
-        - name: order-controller
-          image: spring-boot/order-controller:latest
+        - name: order-service
+          image: spring-boot/order-service:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -47,10 +47,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: spring-boot-order-controller-service
+  name: spring-boot-order-service-service
 spec:
   selector:
-    app: spring-boot-order-controller
+    app: spring-boot-order-service
   ports:
     - protocol: TCP
       port: 8080
