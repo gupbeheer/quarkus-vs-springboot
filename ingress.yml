@@ -8,7 +8,7 @@ spec:
   rules:
   - http:
       paths:
-        - path: /spring-boot/order-controller
+        - path: /spring-boot/order-controller(/|$)(.*)
           pathType: Prefix
           backend:
             service:
