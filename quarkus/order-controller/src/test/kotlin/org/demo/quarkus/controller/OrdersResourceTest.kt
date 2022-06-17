@@ -65,7 +65,7 @@ class OrdersResourceTest {
             log().ifValidationFails()
             statusCode(201)
         }
-        val consumed = companion.consumeStrings().fromTopics("new-order-event-quarkus", 1)
+        val consumed = companion.consumeStrings().fromTopics(NEW_ORDER_EVENT_TOPIC, 1)
         consumed.awaitCompletion()
         Assertions.assertEquals("{\"productName\":\"My test\",\"amount\":12}", consumed.first().value())
     }

@@ -9,11 +9,12 @@ import javax.enterprise.context.ApplicationScoped
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 
+const val NEW_ORDER_EVENT_TOPIC = "new-order-event-quarkus"
+
 @ApplicationScoped
 class OrderRepository(
-    @Channel("new-order-event-quarkus")
+    @Channel(NEW_ORDER_EVENT_TOPIC)
     private val orderEmitter: Emitter<Order>,
-
     @RestClient
     private val orderService: OrderServiceRestClient
 ) {
