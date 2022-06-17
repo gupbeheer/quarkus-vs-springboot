@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if uname -a | grep "Darwin" >/dev/null
+if uname -a | grep "Darwin" | grep "arm64" >/dev/null
 then
   IP="127.0.0.1"
 else
