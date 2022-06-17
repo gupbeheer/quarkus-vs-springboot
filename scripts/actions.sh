@@ -73,8 +73,8 @@ case $ACTION in
   refresh-services)
     for version in quarkus spring-boot; do
       for service in order-controller order-service; do
-        $SCRIPT_DIR/$0 build-image $version $service
-        $SCRIPT_DIR/$0 start-pods $version $service
+        $SCRIPT_DIR/actions.sh build-image $version $service
+        $SCRIPT_DIR/actions.sh start-pods $version $service
       done
     done
     exit
