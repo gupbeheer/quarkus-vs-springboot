@@ -1,3 +1,6 @@
-curl http://192.168.49.2/quarkus/order-controller/orders \
+# shellcheck disable=SC2046
+.  $(dirname "$0")/determineIngressIp.sh
+
+curl http://"$IP"/quarkus/order-controller/orders \
   --header 'Content-Type: application/json' | jq .
 
