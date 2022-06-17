@@ -1,13 +1,13 @@
 package org.demo.quarkus.service
 
-import org.apache.logging.log4j.LogManager
+import org.jboss.logging.Logger
 import org.jboss.resteasy.reactive.RestQuery
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 
 @Path("/orders")
 class OrdersResource(private val orderRepository: OrderRepository) {
-    private val log = LogManager.getLogger()
+    private val log = Logger.getLogger(OrdersResource::class.java)
 
     private companion object {
         const val PAGE_SIZE = 25
