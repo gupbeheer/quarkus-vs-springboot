@@ -24,7 +24,6 @@ case $ACTION in
     exit
     ;;
   start-ingress)
-    cd $DIRNAME/.. || exit
     kubectl apply -f ingress.yml
     kubectl get ingress
     echo "Connect your browser to the shown ip address and port number (http://192.168.49.2:80/<version>/<service>)"
