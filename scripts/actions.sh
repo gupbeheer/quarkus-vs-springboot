@@ -101,6 +101,12 @@ if [ "$VERSION" != "" ]; then
       minikube image build --all --tag $VERSION/$SERVICE:latest .
       exit
       ;;
+    dev)
+      if [ "$VERSION" == "spring-boot" ]; then gradle bootRun
+      else gradle quarkusDev
+      fi
+      exit
+      ;;
     start-pods)
       kubectl delete -f kubernetes.yml
       kubectl apply -f kubernetes.yml
