@@ -8,8 +8,8 @@ cd "$SCRIPT_DIR"/.. || exit
 ACTION=$1
 case $ACTION in
   create-mount)
-    mkdir -p data/postgres
-    mkdir -p data/kafka
+    mkdir -p "$(pwd)/data/postgres"
+    mkdir -p "$(pwd)/data/kafka"
     exit
     ;;
   start-minikube)

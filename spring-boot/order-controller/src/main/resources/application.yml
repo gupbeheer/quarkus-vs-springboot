@@ -10,7 +10,7 @@ spring:
     default: dev
   kafka:
     producer:
-      group-id: spring-order-event
-      client-id: spring-controller-service
+      group-id: spring-order-event-producer
+      client-id: spring-order-controller
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.demo.spring.controller.OrderSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

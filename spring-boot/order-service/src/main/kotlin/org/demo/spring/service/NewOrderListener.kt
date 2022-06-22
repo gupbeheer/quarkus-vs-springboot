@@ -1,10 +1,10 @@
 package org.demo.spring.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.apache.kafka.common.serialization.Deserializer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
 import java.io.Serializable
@@ -36,13 +36,4 @@ data class NewOrderEvent(
 ) : Serializable
 
 @Suppress("unused") // used in config
-class NewOrderEventDeserializer: Deserializer<NewOrderEvent?> {
-    override fun deserialize(topic: String?, data: ByteArray?): NewOrderEvent? {
-        if (data == null) {
-            return null
-        }
-        return ObjectMapper()
-            .findAndRegisterModules()
-            .readValue(data, NewOrderEvent::class.java)
-    }
-}
+class NewOrderEventDeserializer: JsonDeserializer<NewOrderEvent>(NewOrderEvent::class.java, ObjectMapper().findAndRegisterModules(), false)
