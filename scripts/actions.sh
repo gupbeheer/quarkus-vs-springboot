@@ -146,6 +146,7 @@ echo "  - refresh-services        Compile and restart all services"
 echo
 echo "  The rest of the actions need a 'version' and 'service' as well:"
 echo "  - compile           Compile the service"
+echo "  - dev               Run the service locally in dev mode"
 echo "  - build-image       Build the service docker image inside the minikube cluster"
 echo "  - start-pods        Start the service in kubernetes"
 echo "  - replicas          Set the number of replicas"
